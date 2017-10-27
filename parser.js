@@ -241,6 +241,7 @@ function parseStatement() {
  */
 function parseBlock() {
 	let astNode = {
+		type: 'Block',
 		procedure: [],
 		statement: null
 	};
@@ -275,6 +276,7 @@ function parseBlock() {
 		expect('SEMICOLON');
 
 		astNode.procedure.push({
+			type: 'Procedure',
 			name: id, 
 			block: b
 		});
