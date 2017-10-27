@@ -25,16 +25,9 @@ const ShuntingYard = require('./shuntingyard.js');
  *
  */
 
-/*
- * TODO
- * Symbol table local
- */
-
 let curToken;
 let curIndex;
 let allTokens;
-
-let symbolTable = {};
 
 /**
  * Get previous tokens without changing curToken
@@ -268,7 +261,8 @@ function parseBlock() {
 	let astNode = {
 		type: 'Block',
 		procedure: [],
-		statement: null
+		statement: null,
+		symbol: {}
 	};
 
 	if (accept('CONST')) {
@@ -276,7 +270,7 @@ function parseBlock() {
 			expect('IDENTIFIER');
 			expect('EQ');
 			expect('NUMBER');
-			symbolTable[prevToken(2).strval] = {
+			astNode.symbol[prevToken(2).strval] = {
 				const: true,
 				val: prevToken().intval
 			};
@@ -288,7 +282,7 @@ function parseBlock() {
 	if (accept('VAR')) {
 		do {
 			expect('IDENTIFIER');
-			symbolTable[prevToken().strval] = { const: false };
+			astNode.symbol[prevToken().strval] = { const: false };
 		} while (accept('COMMA'));
 		expect('SEMICOLON');
 	}

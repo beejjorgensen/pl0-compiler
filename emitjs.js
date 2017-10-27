@@ -11,6 +11,7 @@ function out(s) {
  * Procedure emitter
  */
 function procedureEmitter(procedure) {
+	out('// Procedure\n');
 	out('function ' + procedure.name + '() {\n');
 	blockEmitter(procedure.block);
 	out('}\n');
@@ -20,24 +21,38 @@ function procedureEmitter(procedure) {
  * Statement emitter
  */
 function statementEmitter(statement) {
-	out('STATEMENT\n');
+	out('// Statement\n');
 }
 
 /**
  * Block emitter
  */
 function blockEmitter(block) {
+	out('// Block\n');
+	//out('{\n');
+
+	for (let sym in block.symbol) {
+		let symData = block.symbol[sym];
+		if (symData.const) {
+			out(`const ${sym} = ${symData.val};\n`);
+		} else {
+			out(`let ${sym};\n`);
+		}
+	}
+
 	for (let procedure of block.procedure) {
 		procedureEmitter(procedure);
 	}
 
 	statementEmitter(block.statement);
+	//out('}\n');
 }
 
 /**
  * Program emitter
  */
 function programEmitter(program) {
+	out('// Program\n');
 	out(';(function () {\n');
 
 	blockEmitter(program.block);

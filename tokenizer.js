@@ -1,5 +1,6 @@
 let patterns = {
 	VAR: /VAR/,
+	CONST: /CONST/,
 	PROCEDURE: /PROCEDURE/,
 	CALL: /CALL/,
 	WHILE: /WHILE/,

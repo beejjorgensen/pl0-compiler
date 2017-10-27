@@ -8,6 +8,8 @@ const emitJS = require('./emitjs');
 
 let input = `VAR x, sqr;
 PROCEDURE square;
+CONST c = 3;
+VAR q;
 BEGIN
    squ:= x * x
 END;
