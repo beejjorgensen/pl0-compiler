@@ -116,7 +116,7 @@ function parseTerm(sy) {
 	parseFactor(sy);
 
 	while (['MULT', 'DIV'].includes(curToken.token)) {
-		sy.process(curToken);
+		sy.process(curToken.token);
 		nextToken();
 		parseFactor(sy);
 	}

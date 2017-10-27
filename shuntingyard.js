@@ -62,7 +62,7 @@ class ShuntingYard {
 				topOp = this.stackPeek();
 			}
 
-			this.stack.push(token.token);
+			this.stack.push(token);
 		}
 
 		else if (token.token == 'LPAREN') {
