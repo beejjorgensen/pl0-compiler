@@ -1,3 +1,5 @@
+const ShuntingYard = require('./shuntingyard.js');
+
 /*
  * TODO
  * Symbol table local
@@ -90,14 +92,16 @@ function parseCondition() {
  *   | number
  *   | "(" expression ")" .
  */
-function parseFactor() {
+function parseFactor(sy) {
 	if (accept('IDENTIFIER')) {
-		null;
+		sy.process(prevToken());
 	} else if (accept('NUMBER')) {
-		null;
+		sy.process(prevToken());
 	} else if (accept('LPAREN')) {
-		parseExpression();
+		sy.process(prevToken());
+		parseExpression(sy);
 		expect('RPAREN');
+		sy.process(prevToken());
 	} else {
 		throw 'syntax error: ' + curToken.strval;
 	}
@@ -108,12 +112,13 @@ function parseFactor() {
  * 
  * term = factor {("*"|"/") factor} .
  */
-function parseTerm() {
-	parseFactor();
+function parseTerm(sy) {
+	parseFactor(sy);
 
 	while (['MULT', 'DIV'].includes(curToken.token)) {
+		sy.process(curToken);
 		nextToken();
-		parseFactor();
+		parseFactor(sy);
 	}
 }
 
@@ -123,16 +128,32 @@ function parseTerm() {
  * expression = ["+"|"-"] term {("+"|"-") term} .
  */
 function parseExpression() {
+	let sy = new ShuntingYard();
+
+	let astNode = {
+		type: 'Expression'
+	};
+
+	// This is the section for negation ... I THINK
 	if (curToken.token == 'PLUS' || curToken.token == 'MINUS') {
+		sy.process('UNARY_' + curToken.token);
 		nextToken();
 	}
 
-	parseTerm();
+	parseTerm(sy);
 
 	while (curToken.token == 'PLUS' || curToken.token == 'MINUS') {
+		sy.process(curToken.token);
 		nextToken();
-		parseTerm();
+		parseTerm(sy);
 	}
+
+	sy.complete();
+
+	astNode.rpn = sy.getRPN();
+	astNode.tree = sy.getAST();
+
+	return astNode;
 }
 
 /**
