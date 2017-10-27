@@ -4,6 +4,7 @@
 
 const tokenizer = require('./tokenizer');
 const parser = require('./parser');
+const emitJS = require('./emitjs');
 
 let input = `VAR x, sqr;
 PROCEDURE square;
@@ -27,3 +28,6 @@ let tokens = tokenizer(input);
 
 let ast = parser(tokens);
 console.log(JSON.stringify(ast, null, 4));
+
+let js = emitJS(ast);
+console.log(js);
