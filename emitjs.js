@@ -11,24 +11,108 @@ function out(s) {
  * Procedure emitter
  */
 function procedureEmitter(procedure) {
-	out('// Procedure\n');
+	//out('PROCEDURE');
 	out('function ' + procedure.name + '() {\n');
 	blockEmitter(procedure.block);
 	out('}\n');
 }
 
 /**
+ * Condition emitter
+ */
+function expressionEmitter(expression) {
+	out('EXPR');
+}
+
+/**
+ * Expression emitter
+ */
+function conditionEmitter(condition) {
+	const compMap = {
+		EQ: '=',
+		NE: '!=',
+		LT: '<',
+		GT: '>',
+		LE: '<=',
+		GE: '>='
+	};
+
+	if (condition.type == 'Odd') {
+		out('(((');
+		expressionEmitter(condition.expression);
+		out(')%2) == 1)');
+	}
+
+	else if (condition.type in compMap) {
+		let comp = compMap[condition.type];
+
+		out('((');
+		expressionEmitter(condition.expression[0]);
+		out(`) ${comp} (`);
+		expressionEmitter(condition.expression[1]);
+		out('))');
+	}
+
+	else {
+		throw 'unknown condition type: ' + condition.type;
+	}
+
+}
+
+/**
  * Statement emitter
  */
 function statementEmitter(statement) {
-	out('// Statement\n');
+	//out('STATEMENT');
+
+	if (statement.type == 'CompoundStatement') {
+		out('{\n');
+		for (let s of statement.statements) {
+			statementEmitter(s);
+		}
+		out('}\n');
+	}
+
+	else if (statement.type == 'Call') {
+		out(statement.identifier + '();\n');
+	}
+
+	else if (statement.type == 'Assignment') {
+		out(statement.identifier + ' = ');
+		expressionEmitter(statement.expression);
+		out(';\n');
+	}
+
+	else if (statement.type == 'Write') {
+		out(`console.log(${statement.identifier});\n`);
+	}
+
+	else if (statement.type == 'IfThen') {
+		out('if (');
+		conditionEmitter(statement.condition);
+		out(') ');
+		statementEmitter(statement.statement);
+		out('\n');
+	}
+
+	else if (statement.type == 'While') {
+		out('while (');
+		conditionEmitter(statement.condition);
+		out(') ');
+		statementEmitter(statement.statement);
+		out('\n');
+	}
+
+	else {
+		throw 'Unknown statement type: ' + statement.type;
+	}
 }
 
 /**
  * Block emitter
  */
 function blockEmitter(block) {
-	out('// Block\n');
+	//out('BLOCK\n');
 	//out('{\n');
 
 	for (let sym in block.symbol) {
@@ -52,7 +136,7 @@ function blockEmitter(block) {
  * Program emitter
  */
 function programEmitter(program) {
-	out('// Program\n');
+	//out('PROGRAM');
 	out(';(function () {\n');
 
 	blockEmitter(program.block);
