@@ -1,7 +1,7 @@
 /**
  * PL/0 recursive descent parser
  * 
- * https://en.wikipedia.org/wiki/PL/0
+ * https://en.wikipedia.org/wiki/Recursive_descent_parser
  * 
  * program = block "." .
  *
