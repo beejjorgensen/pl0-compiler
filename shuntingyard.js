@@ -13,6 +13,9 @@ const precedence = {
 	'DIV': 20,
 };
 
+/**
+ * True if the token is an operator
+ */
 function isOperator(token) {
 	let t = token.token;
 
@@ -25,6 +28,9 @@ function isOperator(token) {
 	return precedence[t] !== undefined;
 }
 
+/**
+ * True if the token is a unary operator
+ */
 function isUnary(token) {
 	return ['UNARY_PLUS', 'UNARY_MINUS'].includes(token.token);
 }

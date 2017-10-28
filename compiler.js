@@ -1,10 +1,5 @@
 /**
- * From https://en.wikipedia.org/wiki/Recursive_descent_parser
- * 
- * TODO
- * ? operator
- * ODD operator
- * Symbol table error messages
+ * Main compiler executor
  */
 
 const tokenizer = require('./tokenizer');
@@ -14,8 +9,6 @@ const emitJS = require('./emitjs');
 let input = `VAR x, sqr, temp;
 PROCEDURE square;
 BEGIN
-   temp := -2;
-   temp := (x+1)/(2*x);
    sqr:= x * x
 END;
 

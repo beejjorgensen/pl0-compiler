@@ -1,3 +1,9 @@
+/**
+ * PL/0 tokenizer
+ * 
+ * https://en.wikipedia.org/wiki/PL/0
+ */
+
 let patterns = {
 	VAR: /VAR/,
 	CONST: /CONST/,
@@ -30,6 +36,11 @@ let patterns = {
 };
 
 
+/**
+ * Tokenize a string
+ * @param {string} input String to tokenize
+ * @param {boolean} [ignoreWhitespace=true] If true, no WHITESPACE tokens will be produced
+ */
 function tokenize(input, ignoreWhitespace=true) {
 	let tokens = [];
 	let normPatterns = {};

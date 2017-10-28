@@ -1,3 +1,7 @@
+/**
+ * Emitter (JavaScript)
+ */
+
 let output;
 
 /**

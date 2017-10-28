@@ -1,7 +1,8 @@
-const ShuntingYard = require('./shuntingyard.js');
-
-
-/*
+/**
+ * PL/0 recursive descent parser
+ * 
+ * https://en.wikipedia.org/wiki/PL/0
+ * 
  * program = block "." .
  *
  * block = [ "const" ident "=" number {"," ident "=" number} ";"]
@@ -24,6 +25,8 @@ const ShuntingYard = require('./shuntingyard.js');
  * factor = ident | number | "(" expression ")".
  *
  */
+
+const ShuntingYard = require('./shuntingyard.js');
 
 let curToken;
 let curIndex;
