@@ -113,7 +113,7 @@ class ShuntingYard {
 	}
 
 	/**
-	 * Return RNP of expression
+	 * Return RPN of expression
 	 * 
 	 * NOTE: Only valid after complete() called
 	 */
