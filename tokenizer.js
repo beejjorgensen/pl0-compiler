@@ -38,6 +38,7 @@ let patterns = {
 
 /**
  * Tokenize a string
+ *
  * @param {string} input String to tokenize
  * @param {boolean} [ignoreWhitespace=true] If true, no WHITESPACE tokens will be produced
  */
