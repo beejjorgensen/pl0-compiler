@@ -14,7 +14,8 @@ const emitJS = require('./emitjs');
 let input = `VAR x, sqr, temp;
 PROCEDURE square;
 BEGIN
-   temp := (x+1)/2;
+   temp := -2;
+   temp := (x+1)/(2*x);
    sqr:= x * x
 END;
 

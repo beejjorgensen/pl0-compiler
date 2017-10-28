@@ -134,7 +134,7 @@ function parseTerm(sy) {
 	parseFactor(sy);
 
 	while (['MULT', 'DIV'].includes(curToken.token)) {
-		sy.process(curToken.token);
+		sy.process(curToken);
 		nextToken();
 		parseFactor(sy);
 	}
@@ -147,14 +147,11 @@ function parseTerm(sy) {
  */
 function parseExpression(shuntingYard) {
 	let sy;
-	let shuntingYardCreator;
 
 	if (shuntingYard) {
 		sy = shuntingYard;
-		shuntingYardCreator = false;
 	} else {
 		sy = new ShuntingYard();
-		shuntingYardCreator = true;
 	}
 
 	let astNode = {
@@ -163,19 +160,22 @@ function parseExpression(shuntingYard) {
 
 	// This is the section for negation ... I THINK
 	if (curToken.token == 'PLUS' || curToken.token == 'MINUS') {
-		sy.process('UNARY_' + curToken.token);
+		curToken.token = 'UNARY_' + curToken.token;
+		sy.process(curToken);
 		nextToken();
 	}
 
 	parseTerm(sy);
 
 	while (curToken.token == 'PLUS' || curToken.token == 'MINUS') {
-		sy.process(curToken.token);
+		sy.process(curToken);
 		nextToken();
 		parseTerm(sy);
 	}
 
-	if (shuntingYardCreator) {
+	if (!shuntingYard) {
+		// if shuntingYard is undefined, it means we created a new on in
+		// this stack frame and we're responsible for finishing it up
 		sy.complete();
 		astNode.rpn = sy.getRPN();
 		astNode.tree = sy.getAST();

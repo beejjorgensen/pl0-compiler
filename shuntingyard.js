@@ -22,7 +22,7 @@ function isOperator(token) {
 		t = token;
 	}
 
-	return !!(precedence[t]);
+	return precedence[t] !== undefined;
 }
 
 function isUnary(token) {
@@ -52,7 +52,7 @@ class ShuntingYard {
 			this.queue.push(token.intval);
 		}
 
-		else if (isOperator(token)) {
+		else if (isOperator(token.token)) {
 			let topOp = this.stackPeek();
 
 			while (this.stack.length > 0 && precedence[topOp] > precedence[token.token]) {
@@ -62,7 +62,7 @@ class ShuntingYard {
 				topOp = this.stackPeek();
 			}
 
-			this.stack.push(token);
+			this.stack.push(token.token);
 		}
 
 		else if (token.token == 'LPAREN') {
