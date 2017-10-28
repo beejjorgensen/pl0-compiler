@@ -161,7 +161,11 @@ class ShuntingYard {
 			topOp = queueCopy.shift();
 		}
 
-		return convStack;
+		if (convStack.length != 1) {
+			throw 'expected convStack to be length 1';
+		}
+
+		return convStack[0];
 
 	}
 }

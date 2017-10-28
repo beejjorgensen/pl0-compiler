@@ -34,7 +34,7 @@ let tokens = tokenizer(input);
 //console.log(JSON.stringify(tokens, null, 4));
 
 let ast = parser(tokens);
-console.log(JSON.stringify(ast, null, 4));
+//console.log(JSON.stringify(ast, null, 4));
 
 let js = emitJS(ast);
 console.log(js);

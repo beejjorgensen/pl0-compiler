@@ -21,16 +21,52 @@ function procedureEmitter(procedure) {
  * Condition emitter
  */
 function expressionEmitter(expression) {
-	out('EXPR');
-	/*
+	const operMap = {
+		UNARY_MINUS: '-',
+		UNARY_PLUS: '+',
+		MINUS: '-',
+		PLUS: '+',
+		MULT: '*',
+		DIV: '/'
+	};
+
+	//out('EXPR');
+
 	let root = expression.tree;
 
 	function inOrder(node) {
-		inOrder(node.
+		if (!node) { return; }
+
+		if (node.type == 'Operator') {
+			out('(');
+
+			// Go left
+			inOrder(node.operand[0]);
+
+			let operSym = operMap[node.value];
+
+			if (!operSym) {
+				throw 'unknown operator type: ' + node.value;
+			}
+
+			out(operSym);
+
+			// Go right
+			inOrder(node.operand[1]);
+
+			out(')');
+		}
+
+		else if (node.type == 'Operand') {
+			out(node.value);
+		}
+
+		else {
+			throw 'unknown expression node type: ' + node.type;
+		}
 	}
 
 	inOrder(root);
-	*/
 }
 
 /**
