@@ -145,8 +145,17 @@ function parseTerm(sy) {
  * 
  * expression = ["+"|"-"] term {("+"|"-") term} .
  */
-function parseExpression() {
-	let sy = new ShuntingYard();
+function parseExpression(shuntingYard) {
+	let sy;
+	let shuntingYardCreator;
+
+	if (shuntingYard) {
+		sy = shuntingYard;
+		shuntingYardCreator = false;
+	} else {
+		sy = new ShuntingYard();
+		shuntingYardCreator = true;
+	}
 
 	let astNode = {
 		type: 'Expression'
@@ -166,10 +175,11 @@ function parseExpression() {
 		parseTerm(sy);
 	}
 
-	sy.complete();
-
-	astNode.rpn = sy.getRPN();
-	astNode.tree = sy.getAST();
+	if (shuntingYardCreator) {
+		sy.complete();
+		astNode.rpn = sy.getRPN();
+		astNode.tree = sy.getAST();
+	}
 
 	return astNode;
 }

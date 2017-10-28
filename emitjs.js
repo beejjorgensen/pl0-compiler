@@ -22,6 +22,15 @@ function procedureEmitter(procedure) {
  */
 function expressionEmitter(expression) {
 	out('EXPR');
+	/*
+	let root = expression.tree;
+
+	function inOrder(node) {
+		inOrder(node.
+	}
+
+	inOrder(root);
+	*/
 }
 
 /**

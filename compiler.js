@@ -11,11 +11,10 @@ const tokenizer = require('./tokenizer');
 const parser = require('./parser');
 const emitJS = require('./emitjs');
 
-let input = `VAR x, sqr;
+let input = `VAR x, sqr, temp;
 PROCEDURE square;
-CONST c = 3;
-VAR q;
 BEGIN
+   temp := (x+1)/2;
    sqr:= x * x
 END;
 

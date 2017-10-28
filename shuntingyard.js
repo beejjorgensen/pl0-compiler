@@ -55,7 +55,7 @@ class ShuntingYard {
 		else if (isOperator(token)) {
 			let topOp = this.stackPeek();
 
-			while (this.stack.length > 0 && precedence[topOp] > precedence(token.token)) {
+			while (this.stack.length > 0 && precedence[topOp] > precedence[token.token]) {
 				topOp = this.stack.pop();
 				this.queue.push(topOp);
 
@@ -136,13 +136,15 @@ class ShuntingYard {
 				};
 
 				if (isUnary(topOp)) {
-					node.operand = [ convStack.pop() ];
+					node.operand = [ null, convStack.pop() ];
 
 				} else {
 					// Binary
+					let op2 = convStack.pop();
+					let op1 = convStack.pop();
 					node.operand = [
-						convStack.pop(),
-						convStack.pop()
+						op1,
+						op2,
 					];
 				}
 
