@@ -1,5 +1,10 @@
 /**
  * From https://en.wikipedia.org/wiki/Recursive_descent_parser
+ * 
+ * TODO
+ * ? operator
+ * ODD operator
+ * Symbol table error messages
  */
 
 const tokenizer = require('./tokenizer');
@@ -11,7 +16,7 @@ PROCEDURE square;
 CONST c = 3;
 VAR q;
 BEGIN
-   squ:= x * x
+   sqr:= x * x
 END;
 
 BEGIN
@@ -19,7 +24,7 @@ BEGIN
 	WHILE x <= 10 DO
 	BEGIN
 		CALL square;
-		! squ;
+		! sqr;
 		x := x + 1
 	END
 END.
